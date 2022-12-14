@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hitech.bookshare.mapper.UserMapper">
+
+  <resultMap id="BaseResultMap" type="com.hitech.bookshare.entity.User">
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="username" jdbcType="VARCHAR" property="username"/>
+    <result column="password" jdbcType="VARCHAR" property="password"/>
+    <result column="sex" jdbcType="TINYINT" property="sex"/>
+    <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+    <result column="address" jdbcType="VARCHAR" property="address"/>
+    <result column="regdate" jdbcType="TIMESTAMP" property="regdate"/>
+    <result column="lastlogindate" jdbcType="TIMESTAMP" property="lastlogindate"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, username, password, sex, mobile, address, regdate, 
+	lastlogindate
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="com.hitech.bookshare.entity.User">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user(username, password, sex, 
+	 mobile, address, regdate, lastlogindate)
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT}, 
+	 #{mobile,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{regdate,jdbcType=TIMESTAMP}, #{lastlogindate,jdbcType=TIMESTAMP})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.hitech.bookshare.entity.User">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        username,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="regdate != null">
+        regdate,
+      </if>
+      <if test="lastlogindate != null">
+        lastlogindate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="regdate != null">
+        #{regdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastlogindate != null">
+        #{lastlogindate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.hitech.bookshare.entity.User">
+    update user
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=TINYINT},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="regdate != null">
+        regdate = #{regdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastlogindate != null">
+        lastlogindate = #{lastlogindate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.hitech.bookshare.entity.User">
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+	  password = #{password,jdbcType=VARCHAR},
+	  sex = #{sex,jdbcType=TINYINT},
+	  mobile = #{mobile,jdbcType=VARCHAR},
+	  address = #{address,jdbcType=VARCHAR},
+	  regdate = #{regdate,jdbcType=TIMESTAMP},
+	  lastlogindate = #{lastlogindate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
